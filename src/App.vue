@@ -16,17 +16,17 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      path: this.$route && this.$route.path,
-    };
+      path: this.$route && this.$route.path
+    }
   },
   watch: {
-    $route(route) {
-      this.path = route.path;
-    },
-  },
-};
+    $route (route) {
+      this.path = route.path
+    }
+  }
+}
 </script>
 <style lang="scss">
 .page {

@@ -34,45 +34,46 @@
 
 <script>
 // @ is an alias to /src
-import { requestsMixin } from "../mixins/requestMixin";
-import CalendarForm from "../components/CalendarForm.vue";
+import { requestsMixin } from '../mixins/requestMixin'
+import CalendarForm from '../components/CalendarForm.vue'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    CalendarForm,
+    CalendarForm
   },
   mixins: [requestsMixin],
   computed: {
-    events() {
-      return this.$store.state.events;
-    },
+
   },
-  data() {
+  data () {
     return {
-      calendarEvent: {},
-    };
+      calendarEvent: {}
+    }
   },
-  async beforeMount() {
-    await this.events();
+  async mounted () {
+    await this.events()
   },
   methods: {
+    events () {
+      return this.$store.state.events
+    },
     getEvents: async () => {
-      const response = await this.getCalendar();
-      this.$store.commit("setEvents", response.data);
+      const response = await this.getCalendar()
+      this.$store.commit('setEvents', response.data)
     },
-    closeModal() {
-      this.$refs["add-modal"].hide();
-      this.$refs["edit-modal"].hide();
-      this.calendarEvent = {};
+    closeModal () {
+      this.$refs['add-modal'].hide()
+      this.$refs['edit-modal'].hide()
+      this.calendarEvent = {}
     },
-    openEditModal(event) {
-      let { id, start, end, title } = event;
-      this.calendarEvent = { id, start, end, title };
-      this.$refs["edit-modal"].show();
-    },
-  },
-};
+    openEditModal (event) {
+      const { id, start, end, title } = event
+      this.calendarEvent = { id, start, end, title }
+      this.$refs['edit-modal'].show()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
