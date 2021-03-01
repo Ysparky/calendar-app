@@ -1,3 +1,10 @@
 {
-  "calendar": []
+  "calendar": [
+    {
+      "title": "Cita con el Dentista",
+      "start": "2021-03-06T16:34:00.000Z",
+      "end": "2021-03-06T17:42:00.000Z",
+      "id": 1
+    }
+  ]
 }

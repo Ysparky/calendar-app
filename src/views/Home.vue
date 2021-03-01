@@ -34,7 +34,7 @@
 
 <script>
 // @ is an alias to /src
-import { requestsMixin } from '../mixins/requestMixin'
+import { requestsMixin } from '../mixins/requestsMixin'
 import CalendarForm from '../components/CalendarForm.vue'
 
 export default {
@@ -44,21 +44,20 @@ export default {
   },
   mixins: [requestsMixin],
   computed: {
-
+    events () {
+      return this.$store.state.events
+    }
   },
   data () {
     return {
       calendarEvent: {}
     }
   },
-  async mounted () {
-    await this.events()
+  async beforeMount () {
+    await this.getEvents()
   },
   methods: {
-    events () {
-      return this.$store.state.events
-    },
-    getEvents: async () => {
+    async getEvents () {
       const response = await this.getCalendar()
       this.$store.commit('setEvents', response.data)
     },
