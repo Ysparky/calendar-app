@@ -48,7 +48,7 @@
 
         <b-button type="submit" variant="primary">Save</b-button>
         <b-button type="button" variant="primary" @click="deleteEvent(form.id)">
-          Save
+          Delete
         </b-button>
       </b-form>
     </ValidationObserver>
@@ -56,54 +56,54 @@
 </template>
 
 <script>
-import { requestsMixin } from '../mixins/requestsMixin'
-import * as moment from 'moment'
+import { requestsMixin } from "../mixins/requestsMixin";
+import * as moment from "moment";
 export default {
   props: {
     edit: Boolean,
-    calendarObject: Object
+    calendarEvent: Object,
   },
   mixins: [requestsMixin],
-  data () {
+  data() {
     return {
-      form: {}
-    }
+      form: {},
+    };
   },
   methods: {
     onSubmit: async () => {
-      const isValid = await this.$refs.observer.validate()
+      const isValid = await this.$refs.observer.validate();
       if (!isValid) {
-        return
+        return;
       }
-      this.form.start = moment(this.form.start).format('YYYY-MM-DD HH:mm:ss')
-      this.form.end = moment(this.form.end).format('YYYY-MM-DD HH:mm:ss')
+      this.form.start = moment(this.form.start).format("YYYY-MM-DD HH:mm:ss");
+      this.form.end = moment(this.form.end).format("YYYY-MM-DD HH:mm:ss");
 
       if (this.edit) {
-        await this.editCalendar(this.form)
+        await this.editCalendar(this.form);
       } else {
-        await this.addCalendar(this.form)
+        await this.addCalendar(this.form);
       }
-      const response = await this.getCalendar()
-      this.$store.commit('setEvents', response.data)
-      this.$emit('eventSaved')
+      const response = await this.getCalendar();
+      this.$store.commit("setEvents", response.data);
+      this.$emit("eventSaved");
     },
     deleteEvent: async (id) => {
-      await this.deleteCalendar(id)
-      const response = await this.getCalendar()
-      this.$store.commit('setEvents', response.data)
-      this.$emit('eventSaved')
-    }
+      await this.deleteCalendar(id);
+      const response = await this.getCalendar();
+      this.$store.commit("setEvents", response.data);
+      this.$emit("eventSaved");
+    },
   },
   watch: {
     calendarEvent: {
       immediate: true,
       deep: true,
-      handler (val, _) {
-        this.form = val || {}
-      }
-    }
-  }
-}
+      handler(val, _) {
+        this.form = val || {};
+      },
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
