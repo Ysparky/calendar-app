@@ -1,18 +1,82 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="page">
+    <div class="buttons">
+      <b-button v-b-modal.add-modal>Add Calendar Event</b-button>
+    </div>
+    <full-calendar
+      defaultView="month"
+      :events="events"
+      @event-selected="openEditModal"
+    />
+    <b-modal
+      id="add-modal"
+      hide-footer
+      ref="add-modal"
+      title="Add Calendar Event"
+    >
+      <calendar-form :edit="false" @eventSaved="closeModal()" />
+    </b-modal>
+
+    <b-modal
+      id="edit-modal"
+      hide-footer
+      ref="edit-modal"
+      title="Edit Calendar Event"
+    >
+      <calendar-form
+        :calendarEvent="calendarEvent"
+        :edit="true"
+        @eventSaved="closeModal()"
+      ></calendar-form>
+    </b-modal>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { requestsMixin } from "../mixins/requestMixin";
+import CalendarForm from "../components/CalendarForm.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    CalendarForm,
+  },
+  mixins: [requestsMixin],
+  computed: {
+    events() {
+      return this.$store.state.events;
+    },
+  },
+  data() {
+    return {
+      calendarEvent: {},
+    };
+  },
+  async beforeMount() {
+    await this.events();
+  },
+  methods: {
+    getEvents: async () => {
+      const response = await this.getCalendar();
+      this.$store.commit("setEvents", response.data);
+    },
+    closeModal() {
+      this.$refs["add-modal"].hide();
+      this.$refs["delete-modal"].hide();
+      this.calendarEvent = {};
+    },
+    openEditModal(event) {
+      let { id, start, end, title } = event;
+      this.calendarEvent = { id, start, end, title };
+      this.$refs["edit-modal"].show();
+    },
+  },
+};
 </script>
+
+<style lang="scss" scoped>
+.buttons {
+  margin-bottom: 10px;
+}
+</style>
