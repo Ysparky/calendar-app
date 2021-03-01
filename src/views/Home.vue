@@ -63,7 +63,7 @@ export default {
     },
     closeModal() {
       this.$refs["add-modal"].hide();
-      this.$refs["delete-modal"].hide();
+      this.$refs["edit-modal"].hide();
       this.calendarEvent = {};
     },
     openEditModal(event) {
