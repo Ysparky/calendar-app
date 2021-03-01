@@ -1,24 +1,23 @@
-# calendar-app
+# Calendar App
 
 ## Project setup
 ```
 npm install
 ```
+For the backend, you need to install [json-server](https://github.com/typicode/json-server)
 
-### Compiles and hot-reloads for development
+```
+npm i -g json-server
+or
+npm i json-server
+```
+
+Then to run it:
+```
+json-server --watch db.json
+```
+
+To run the app:
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
